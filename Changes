@@ -1,0 +1,6 @@
+Revision history for Perl extension Scalar::Util::Numeric.
+
+0.01  Sat Mar 26 15:01:09 2005
+	- original version; created by h2xs 1.23 with options
+		-n Scalar::Util::Numeric
+
