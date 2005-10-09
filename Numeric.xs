@@ -11,11 +11,16 @@ is_num(sv)
     PROTOTYPE: $
     PREINIT:
     I32 num = 0;
-    PPCODE:
+    CODE:
 
     if (!(SvROK(sv) || (sv == (SV *)&PL_sv_undef))) {
 		num = looks_like_number(sv);
     }
 
-    EXTEND(SP,1);
-    PUSHs(sv_2mortal(newSViv(num)));
+    XSRETURN_IV(num);
+
+void
+uvmax()
+    PROTOTYPE:
+    CODE:
+    XSRETURN_UV(UV_MAX);

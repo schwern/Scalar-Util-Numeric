@@ -1,9 +1,10 @@
 Changes
-MANIFEST
-Makefile.PL
-Numeric.xs
-README
 lib/Scalar/Util/Numeric.pm
+Makefile.PL
+MANIFEST
+META.yml			Module meta-data (added by MakeMaker)
+Numeric.xs
 ppport.h
+README
+t/pod.t
 t/Scalar-Util-Numeric.t
-META.yml                                 Module meta-data (added by MakeMaker)

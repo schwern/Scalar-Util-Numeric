@@ -17,7 +17,7 @@ our %EXPORT_TAGS = (
 
 our @EXPORT_OK = ( map { @$_ } values %EXPORT_TAGS );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 bootstrap Scalar::Util::Numeric $VERSION;
 
@@ -31,7 +31,7 @@ Scalar::Util::Numeric - numeric tests for Perl datatypes
 
 =head1 SYNOPSIS
 
-    use Scalar:Util::Numeric qw(isnum isint isfloat);
+    use Scalar::Util::Numeric qw(isnum isint isfloat);
 
     foo($bar / 2) if (isnum $bar);
 
@@ -64,12 +64,12 @@ Returns a nonzero value (indicating the numeric type) if $val is a number.
 
 The numeric type is a conjunction of the following flags:
 
-    0x01  IS_NUMBER_IN_UV               (number within UV range - maybe not int)
-    0x02  IS_NUMBER_GREATER_THAN_UV_MAX (the pointed-to UV is undefined)
+    0x01  IS_NUMBER_IN_UV               (number within UV range - not necessarily an integer)
+    0x02  IS_NUMBER_GREATER_THAN_UV_MAX (number is greater than UV_MAX)
     0x04  IS_NUMBER_NOT_INT             (saw . or E notation)
     0x08  IS_NUMBER_NEG                 (leading minus sign)
-    0x10  IS_NUMBER_INFINITY            (this is big)
-    0x20  IS_NUMBER_NAN                 (this is not)
+    0x10  IS_NUMBER_INFINITY            (Infinity)
+    0x20  IS_NUMBER_NAN                 (NaN - not a number)
 
 The following flavours of C<isnum> (corresponding to the flags above) are also available:
 
