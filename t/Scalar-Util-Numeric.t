@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Config;
-use Test::More tests => 32;
+use Test::More tests => 34;
 
 use_ok('Scalar::Util::Numeric', qw(:all));
 
@@ -28,7 +28,7 @@ is (isnum('A0'), 0, "isnum('A0') == 0");
 is (isnum('0A'), 0, "isnum('0A') == 0");
 is (isnum(\&ok), 0, "isnum(\\&ok) == 0");
 
-is (isuv($uvmax), 1, 'isuv($uvmax) == 1');
+is (isuv($uvmax), 1, 'isuv($uvmax) == 1') or diag "UVMAX: $uvmax";
 is (isuv(-1), 1, "isuv(-1) == 1");
 
 is (isbig($uvmax), 0, "isbig(\$uvmax) == 0");
@@ -40,6 +40,7 @@ SKIP: {
 is (isfloat(3.1415927), 1, "isfloat(3.1415927) == 1");
 is (isfloat(-3.1415927), 1, "isfloat(-3.1415927) == 1");
 is (isfloat(3), 0, "isfloat(3) == 0");
+is (isfloat("1.0"), 1, "isfloat('1.0')");
 
 is (isneg(-1), 1, "isneg(-1) == 1");
 is (isneg(-3.1415927), 1, "isneg(-3.1415927) == 1");
@@ -59,6 +60,7 @@ is (isint(3.1415927), 0, "isint(3.1415927) == 0");
 is (isint(-3.1415927), 0, "isint(-3.1415927) == 0");
 is (isint($uvmax), 1, 'isint($uvmax) == 1');
 is (isint($inf), 0, 'isint($Math::Complex::Inf) == 0');
+is (isint("1.0"), 0, "isint('1.0')");
 
 SKIP: {
     skip ('NaN is not supported by this platform', 2) unless($Config{d_isnan});
