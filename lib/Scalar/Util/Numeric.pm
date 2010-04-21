@@ -7,7 +7,6 @@ use warnings;
 
 require Exporter;
 require DynaLoader;
-use AutoLoader 'AUTOLOAD';
 
 our @ISA = qw(Exporter DynaLoader);
 
@@ -21,9 +20,6 @@ our $VERSION = '0.02';
 
 bootstrap Scalar::Util::Numeric $VERSION;
 
-1;
-
-__END__
 
 =head1 NAME
 
@@ -140,3 +136,5 @@ This module is free software. It may be used, redistributed
 and/or modified under the same terms as Perl itself.
 
 =cut
+
+1;
