@@ -7,7 +7,6 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'            =>    'Scalar::Util::Numeric',
     'VERSION_FROM'    =>    'lib/Scalar/Util/Numeric.pm',     # finds $VERSION
-    'INSTALLDIRS'     =>    'site',
     'PREREQ_PM'       =>    { # e.g. Module::Name => 1.1
         'Math::Complex'	=> 0,
         'Test::More'	=> 0,
