@@ -11,7 +11,7 @@ require DynaLoader;
 our @ISA = qw(Exporter DynaLoader);
 
 our %EXPORT_TAGS = (
-'all'	=> [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
+    'all' => [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
 );
 
 our @EXPORT_OK = ( map { @$_ } values %EXPORT_TAGS );
@@ -19,7 +19,6 @@ our @EXPORT_OK = ( map { @$_ } values %EXPORT_TAGS );
 our $VERSION = '0.02';
 
 bootstrap Scalar::Util::Numeric $VERSION;
-
 
 =head1 NAME
 
@@ -46,7 +45,7 @@ returns the numeric type of its argument, or 0 if it isn't numeric.
 
 All of the functions exported by Scalar::Util::Numeric can be imported by using the C<:all> tag:
 
-	use Scalar::Util::Numeric qw(:all);
+    use Scalar::Util::Numeric qw(:all);
 
 =head1 isnum
 
@@ -126,11 +125,13 @@ L<Scalar::Util>
 
 =head1 AUTHOR
 
-chocolateboy: <chocolate.boy@email.com>
+chocolateboy <chocolate@cpan.org>
+
+Michael G Schwern <schwern@pobox.com>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005, chocolateboy.
+Copyright (c) 2005-2010, chocolateboy.
 
 This module is free software. It may be used, redistributed
 and/or modified under the same terms as Perl itself.
