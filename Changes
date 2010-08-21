@@ -1,5 +1,14 @@
 Revision history for Perl extension Scalar::Util::Numeric.
 
+0.10  Sat Aug 21 14:16:07 2010
+    - bump min perl version to 5.8.0
+    - implement all functions in XS
+    - test that isint and isfloat aren't fooled by "1.0" (Schwern)
+    - eliminate the test-only deps on Math::Complex and Math::BigInt (Schwern)
+    - add GitHub repository
+    - update ppport.h
+    - misc cleanup (chocolateboy, Schwern)
+
 0.02  Sun Oct 9 23:27:04 2005
     - fix uvmax test
     - fix documentation typo (thanks Mike Castle)

@@ -8,8 +8,7 @@ use warnings;
 use base qw(Exporter);
 use XSLoader;
 
-our $VERSION = '0.02';
-
+our $VERSION = '0.10';
 
 our %EXPORT_TAGS = (
     'all' => [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
@@ -19,49 +18,13 @@ our @EXPORT_OK = ( map { @$_ } values %EXPORT_TAGS );
 
 XSLoader::load(__PACKAGE__, $VERSION);
 
-sub isnum ($) {
-    return 0 unless defined (my $val = shift);
-    # stringify - ironically, looks_like_number always returns 1 unless
-    # arg is a string
-    return is_num($val . '');
-}
-
-sub isint ($) {
-    my $isnum = isnum(shift());
-    return ($isnum == 1) ? 1 : ($isnum == 9) ? -1 : 0;
-}
-
-sub isuv ($) {
-    return (isnum(shift()) & 1) ? 1 : 0;
-}
-
-sub isbig ($) {
-    return (isnum(shift()) & 2) ? 1 : 0;
-}
-
-sub isfloat ($) {
-    return (isnum(shift()) & 4) ? 1 : 0;
-}
-
-sub isneg ($) {
-    return (isnum(shift()) & 8) ? 1 : 0;
-}
-
-sub isinf ($) {
-    return (isnum(shift()) & 16) ? 1 : 0;
-}
-
-sub isnan ($) {
-    return (isnum(shift()) & 32) ? 1 : 0;
-}
-
 1;
 
 __END__
 
 =head1 NAME
 
-Scalar::Util::Numeric - numeric tests for Perl datatypes
+Scalar::Util::Numeric - numeric tests for Perl scalars
 
 =head1 SYNOPSIS
 
@@ -121,6 +84,8 @@ The others always return 1 or 0.
 =head1 SEE ALSO
 
 =over
+
+=item * L<autobox/type>
 
 =item * L<Data::Types>
 
