@@ -1,4 +1,4 @@
-#!perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -9,13 +9,20 @@ use Test::More tests => 34;
 use_ok('Scalar::Util::Numeric', qw(:all));
 
 my $uvmax = Scalar::Util::Numeric::uvmax();
-my $uvmax_plus_one = eval {
+
+my $uvmax_plus_one = do {
     require Math::BigInt;
     Math::BigInt->new($uvmax)->badd(1)->bstr();
 };
-my $inf = eval {
+
+my $inf = do {
     require Math::Complex;
-    $Math::Complex::Inf = $Math::Complex::Inf;  # silence warning
+    my $inf = do {
+        no warnings 'once';
+        $Math::Complex::Inf;
+    };
+    diag("Infinity: <<$inf>>");
+    $inf;
 };
 
 is (isnum(0), 1, 'isnum(0) == 1');
