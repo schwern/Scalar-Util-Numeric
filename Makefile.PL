@@ -18,11 +18,9 @@ if ($Config{gccversion}) {
 }
 
 WriteMakefile(
-    NAME             => 'Scalar::Util::Numeric',
-    VERSION_FROM     => 'lib/Scalar/Util/Numeric.pm',
-    PREREQ_PM        => {
-        'Test::More' => 0,
-    },
+    NAME          => 'Scalar::Util::Numeric',
+    VERSION_FROM  => 'lib/Scalar/Util/Numeric.pm',
+    PREREQ_PM     => {},
     ABSTRACT_FROM => 'lib/Scalar/Util/Numeric.pm',
     AUTHOR        => 'chocolateboy <chocolate@cpan.org>, Michael G Schwern <schwern@pobox.com>',
     LIBS          => [ '' ],
