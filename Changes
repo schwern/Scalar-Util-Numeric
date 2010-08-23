@@ -1,5 +1,8 @@
 Revision history for Perl extension Scalar::Util::Numeric.
 
+0.11 Mon Aug 23 17:52:30 2010
+    - only show diagnostics for failing tests
+
 0.10  Sat Aug 21 14:16:07 2010
     - bump min perl version to 5.8.0
     - implement all functions in XS

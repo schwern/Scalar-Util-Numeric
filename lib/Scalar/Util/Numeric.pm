@@ -8,7 +8,7 @@ use warnings;
 use base qw(Exporter);
 use XSLoader;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 our %EXPORT_TAGS = (
     'all' => [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
@@ -66,6 +66,20 @@ The numeric type is a conjunction of the following flags:
     0x10  IS_NUMBER_INFINITY            (Infinity)
     0x20  IS_NUMBER_NAN                 (NaN - not a number)
 
+=head2 isint
+
+=head2 isuv
+
+=head2 isbig
+
+=head2 isfloat
+
+=head2 isneg
+
+=head2 isinf
+
+=head2 isnan
+
 The following flavours of C<isnum> (corresponding to the flags above) are also available:
 
     isint
@@ -98,6 +112,10 @@ The others always return 1 or 0.
 =item * L<String::Numeric>
 
 =back
+
+=head1 VERSION
+
+0.11
 
 =head1 AUTHORS
 
