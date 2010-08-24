@@ -10,7 +10,8 @@ our $OPTIMIZE;
 
 if ($Config{gccversion}) {
     $OPTIMIZE = '-O3 -Wall -W';
-    $OPTIMIZE .= ' -g -Wextra -Wdeclaration-after-statement' if (-d 'dev');
+    # the dev directory is under VC now - look for a hidden file instead
+    $OPTIMIZE .= ' -g -Wextra -Wdeclaration-after-statement' if (-f '.dev');
 } elsif ($Config{osname} eq 'MSWin32') {
     $OPTIMIZE = '-O2 -W4';
 } else {
@@ -31,7 +32,7 @@ WriteMakefile(
     ($ExtUtils::MakeMaker::VERSION >= 6.46 ?
         (META_MERGE => {
             resources => {
-                repository => 'http://github.com/schwern/Scalar-Util-Numeric',
+                repository => 'http://github.com/chocolateboy/Scalar-Util-Numeric',
             },
         })
         : ()

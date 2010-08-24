@@ -8,7 +8,7 @@ use warnings;
 use base qw(Exporter);
 use XSLoader;
 
-our $VERSION = '0.11';
+our $VERSION = '0.20';
 
 our %EXPORT_TAGS = (
     'all' => [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
@@ -115,7 +115,7 @@ The others always return 1 or 0.
 
 =head1 VERSION
 
-0.11
+0.20
 
 =head1 AUTHORS
 

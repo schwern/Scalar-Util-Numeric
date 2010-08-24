@@ -12,7 +12,7 @@ build_requires:
     ExtUtils::MakeMaker:  0
 requires:  {}
 resources:
-    repository:  http://github.com/schwern/Scalar-Util-Numeric
+    repository:  http://github.com/chocolateboy/Scalar-Util-Numeric
 no_index:
     directory:
         - t
