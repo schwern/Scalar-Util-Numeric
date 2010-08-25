@@ -6,7 +6,7 @@ use warnings;
 use Config;
 use Math::BigInt;
 use Math::Complex;
-use Test::More tests => 62;
+use Test::More tests => 86;
 
 use overload
     '""'     => sub { '' . $_[0]->[0] },
@@ -16,7 +16,22 @@ use overload
 sub new {
     my $class = shift;
     bless [ @_ ], $class;
-};
+}
+
+# only debug the value if one or more of its tests fails
+sub diag_if_fail($@) {
+    my $diag = shift;
+    my $fail = 0;
+
+    for my $test (@_) {
+        ++$fail unless ($test->());
+    }
+
+    if ($fail) {
+        $diag = [ $diag ] unless (ref $diag);
+        diag $_ for @$diag;
+    }
+}
 
 use_ok('Scalar::Util::Numeric', qw(:all));
 
@@ -48,65 +63,50 @@ my $infinity = do {
 
 ok(defined($infinity), 'infinity is defined');
 
-# only debug the value if one or more of its tests fails
-sub diag_if_fail($@) {
-    my $diag = shift;
-    my $fail = 0;
-
-    for my $test (@_) {
-        ++$fail unless ($test->());
-    }
-
-    if ($fail) {
-        $diag = [ $diag ] unless (ref $diag);
-        diag $_ for @$diag;
-    }
-}
-
-is (isnum(0), 1, 'isnum(0) == 1');
-is (isnum(1), 1, 'isnum(1) == 1');
-is (isnum(-1), 9, 'isnum(-1) == 9');
-is (isnum('0.00'), 5, "isnum('0.00') == 5");
-is (isnum(undef), 0, "isnum(undef) == 0");
-is (isnum('A'), 0, "isnum('A') == 0");
-is (isnum('A0'), 0, "isnum('A0') == 0");
-is (isnum('0A'), 0, "isnum('0A') == 0");
-is (isnum(sub { }), 0, "isnum(sub { }) == 0");
-is (isnum([]), 0, 'isnum([]) == 0');
-is (isnum({}), 0, 'isnum({}) == 0');
-is (isnum($integer), 1, "isnum(\$integer) == 1");
-is (isnum($float), 5, "isnum(\$float) == 5");
+is (isnum(0), 1, 'isnum(0)');
+is (isnum(1), 1, 'isnum(1)');
+is (isnum(-1), 9, 'isnum(-1)');
+is (isnum('0.00'), 5, "isnum('0.00')");
+is (isnum(undef), 0, "isnum(undef)");
+is (isnum('A'), 0, "isnum('A')");
+is (isnum('A0'), 0, "isnum('A0')");
+is (isnum('0A'), 0, "isnum('0A')");
+is (isnum(sub { }), 0, "isnum(sub { })");
+is (isnum([]), 0, 'isnum([])');
+is (isnum({}), 0, 'isnum({})');
+is (isnum($integer), 1, "isnum(\$integer)");
+is (isnum($float), 5, "isnum(\$float)");
 
 diag_if_fail "UV_MAX: '$uvmax'" =>
-    sub { is (isuv($uvmax), 1, 'isuv($uvmax) == 1') },
-    sub { is (isuv(-1), 1, "isuv(-1) == 1") };
+    sub { is (isuv($uvmax), 1, 'isuv($uvmax)') },
+    sub { is (isuv(-1), 1, "isuv(-1)") };
 
 diag_if_fail [ "UV_MAX: '$uvmax'", "UV_MAX + 1: '$uvmax_plus_one'" ] =>
-    sub { is (isbig($uvmax), 0, "isbig(\$uvmax) == 0") },
-    sub { is (isbig($uvmax_plus_one), 1, "isbig(\$uvmax + 1) == 1") };
+    sub { is (isbig($uvmax), 0, "isbig(\$uvmax)") },
+    sub { is (isbig($uvmax_plus_one), 1, "isbig(\$uvmax + 1)") };
 
-is (isfloat(3.1415927), 1, "isfloat(3.1415927) == 1");
-is (isfloat(-3.1415927), 1, "isfloat(-3.1415927) == 1");
-is (isfloat(3), 0, "isfloat(3) == 0");
+is (isfloat(3.1415927), 1, "isfloat(3.1415927)");
+is (isfloat(-3.1415927), 1, "isfloat(-3.1415927)");
+is (isfloat(3), 0, "isfloat(3)");
 is (isfloat("1.0"), 1, "isfloat('1.0')");
 is (isfloat($float), 1, "isfloat(\$float)");
 
-is (isneg(-1), 1, "isneg(-1) == 1");
-is (isneg(-3.1415927), 1, "isneg(-3.1415927) == 1");
-is (isneg(1), 0, "isneg(1) == 0");
-is (isneg(3.1415927), 0, "isneg(3.1415927) == 0");
+is (isneg(-1), 1, "isneg(-1)");
+is (isneg(-3.1415927), 1, "isneg(-3.1415927)");
+is (isneg(1), 0, "isneg(1)");
+is (isneg(3.1415927), 0, "isneg(3.1415927)");
 
 diag_if_fail "INFINITY: '$infinity'" =>
-    sub { is (isinf('Inf'), 1, "isinf('Inf') == 1") },
-    sub { is (isinf(3.1415927), 0, "isinf(3.1415927) == 0") },
-    sub { is (isinf($infinity), 1, 'isinf($Math::Complex::Inf) == 1') };
+    sub { is (isinf('Inf'), 1, "isinf('Inf')") },
+    sub { is (isinf(3.1415927), 0, "isinf(3.1415927)") },
+    sub { is (isinf($infinity), 1, 'isinf($Math::Complex::Inf)') };
 
 is (isint(-99), -1, "isint(-99) == -1");
-is (isint(0), 1, "isint(0) == 1");
-is (isint(3.1415927), 0, "isint(3.1415927) == 0");
-is (isint(-3.1415927), 0, "isint(-3.1415927) == 0");
-is (isint($uvmax), 1, 'isint($uvmax) == 1');
-is (isint($infinity), 0, 'isint($Math::Complex::Inf) == 0');
+is (isint(0), 1, "isint(0)");
+is (isint(3.1415927), 0, "isint(3.1415927)");
+is (isint(-3.1415927), 0, "isint(-3.1415927)");
+is (isint($uvmax), 1, 'isint($uvmax)');
+is (isint($infinity), 0, 'isint($Math::Complex::Inf)');
 is (isint("1.0"), 0, "isint('1.0')");
 is (isint($integer), 1, "isint(\$integer)");
 is (isint($float), 0, "isint(\$float)");
@@ -118,8 +118,8 @@ SKIP: {
     my $nan = Math::BigInt->bnan;
 
     diag_if_fail "NAN: '$nan'" =>
-        sub { is (isnan('NaN'), 1, "isnan('NaN') == 1") },
-        sub { is (isnan(42), 0, "isnan(42) == 0") };
+        sub { is (isnan('NaN'), 1, "isnan('NaN')") },
+        sub { is (isnan(42), 0, "isnan(42)") };
 }
 
 # test the assumed Inf/NaN values on Windows
@@ -143,4 +143,12 @@ SKIP: {
         sub { is (isnan("-$nan"), 1, "isnan('-$nan')") },
         sub { is (isnan(3.1415927), 0, "isnan(3.1415927)") },
         sub { is (isnan(42), 0, "isnan(42)") };
+}
+
+# throw in some near-misses (wrong spelling and wrong case) for the WIn32 Inf and NaN
+# these should be invalid numbers on all platforms
+for my $fail ('1.#IMD', '-1.#IMD', '1.#IMF', '-1.#IMF', '1.#InD', '-1.#InD', '1.#InF', '-1.#InF') {
+    is(isint($fail), 0);
+    is(isinf($fail), 0);
+    is(isnan($fail), 0);
 }

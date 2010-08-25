@@ -1,7 +1,12 @@
 Revision history for Perl extension Scalar::Util::Numeric.
 
+0.22 Wed Aug 25 11:45:18 2010
+    - Windows: don't call grok_number if we already know it isn't
+    - XS cleanup
+    - more tests
+
 0.21 Wed Aug 25 02:53:53 2010
-    - bypass redundant grok_number wrapper
+    - call grok_number directly rather than the redundant looks_like_number wrapper
 
 0.20 Tue Aug 24 22:56:36 2010
     - try to fix Inf and NaN on Windows

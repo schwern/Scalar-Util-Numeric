@@ -4,11 +4,11 @@
 #include "XSUB.h"
 #include "ppport.h"
 
-I32 is_num(pTHX_ SV * sv);
-I32 is_num(pTHX_ SV * sv) {
+STATIC I32 is_num(pTHX_ SV * sv);
+STATIC I32 is_num(pTHX_ SV * sv) {
     I32 type = 0;
 
-    if (!(sv == (SV *)&PL_sv_undef)) {
+    if (sv && (sv != &PL_sv_undef)) {
         STRLEN len;
         const char * str = NULL;
 
@@ -17,7 +17,6 @@ I32 is_num(pTHX_ SV * sv) {
             len = SvCUR(sv);
         } else { /* stringify numbers, references and overloaded objects */
             str = SvPV_const(sv, len);
-            sv = sv_2mortal(newSVpv(str, len));
         }
 
 /*
@@ -42,7 +41,7 @@ I32 is_num(pTHX_ SV * sv) {
                             return IS_NUMBER_NAN | IS_NUMBER_NOT_INT;
                         }
 
-                        goto not_nan_or_inf;
+                        goto fail_early;
 
                     case 'F':
                         if (str[0] == '1' &&
@@ -54,7 +53,7 @@ I32 is_num(pTHX_ SV * sv) {
                             return IS_NUMBER_INFINITY | IS_NUMBER_NOT_INT;
                         }
 
-                        goto not_nan_or_inf;
+                        goto fail_early;
 
                     default:
                         goto not_nan_or_inf;
@@ -73,7 +72,7 @@ I32 is_num(pTHX_ SV * sv) {
                             return IS_NUMBER_NEG | IS_NUMBER_NAN | IS_NUMBER_NOT_INT;
                         }
 
-                        goto not_nan_or_inf;
+                        goto fail_early;
 
                     case 'F':
                         if (str[0] == '-' &&
@@ -86,7 +85,7 @@ I32 is_num(pTHX_ SV * sv) {
                             return IS_NUMBER_NEG | IS_NUMBER_INFINITY | IS_NUMBER_NOT_INT;
                         }
 
-                        goto not_nan_or_inf;
+                        goto fail_early;
 
                     default:
                         goto not_nan_or_inf;
@@ -95,6 +94,9 @@ I32 is_num(pTHX_ SV * sv) {
             default:
                 goto not_nan_or_inf;
         }
+
+        fail_early:
+            return 0;
 
         not_nan_or_inf:
 #endif
@@ -113,14 +115,14 @@ uvmax()
         XSRETURN_UV(UV_MAX);
 
 void
-isnum (sv)
+isnum(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV(is_num(aTHX_ sv));
 
 void
-isint (sv)
+isint(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
@@ -138,42 +140,42 @@ isint (sv)
         XSRETURN_IV(ret);
 
 void
-isuv (sv)
+isuv(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV((is_num(aTHX_ sv) & 1) ? 1 : 0);
 
 void
-isbig (sv)
+isbig(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV((is_num(aTHX_ sv) & 2) ? 1 : 0);
 
 void
-isfloat (sv)
+isfloat(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV((is_num(aTHX_ sv) & 4) ? 1 : 0);
 
 void
-isneg (sv)
+isneg(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV((is_num(aTHX_ sv) & 8) ? 1 : 0);
 
 void
-isinf (sv)
+isinf(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
         XSRETURN_IV((is_num(aTHX_ sv) & 16) ? 1 : 0);
 
 void
-isnan (sv)
+isnan(sv)
     SV * sv
     PROTOTYPE: $
     CODE:
