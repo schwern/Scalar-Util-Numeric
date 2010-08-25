@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Scalar-Util-Numeric
-version:            0.20
+version:            0.21
 abstract:           numeric tests for Perl scalars
 author:
     - chocolateboy <chocolate@cpan.org>, Michael G Schwern <schwern@pobox.com>

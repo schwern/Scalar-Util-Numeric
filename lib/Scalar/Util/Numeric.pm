@@ -8,7 +8,7 @@ use warnings;
 use base qw(Exporter);
 use XSLoader;
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 our %EXPORT_TAGS = (
     'all' => [ qw(isbig isfloat isinf isint isnan isneg isnum isuv) ],
@@ -40,7 +40,7 @@ Scalar::Util::Numeric - numeric tests for Perl scalars
 
 =head1 DESCRIPTION
 
-This module exports a number of wrappers around perl's builtin C<looks_like_number> function, which 
+This module exports a number of wrappers around perl's builtin C<grok_number> function, which
 returns the numeric type of its argument, or 0 if it isn't numeric.
 
 =head1 TAGS
@@ -115,7 +115,7 @@ The others always return 1 or 0.
 
 =head1 VERSION
 
-0.20
+0.21
 
 =head1 AUTHORS
 

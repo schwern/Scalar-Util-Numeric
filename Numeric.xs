@@ -12,11 +12,10 @@ I32 is_num(pTHX_ SV * sv) {
         STRLEN len;
         const char * str = NULL;
 
-        /*
-         * stringify: ironically, looks_like_number always returns 1 (at least up to 5.8.1)
-         * or (at least from 5.8.8) an unhelpful conjunction of flags unless arg is a string
-         */
-        if (!SvPOK(sv)) { /* stringify numbers, references and overloaded objects */
+        if (SvPOK(sv)) {
+            str = SvPVX_const(sv);
+            len = SvCUR(sv);
+        } else { /* stringify numbers, references and overloaded objects */
             str = SvPV_const(sv, len);
             sv = sv_2mortal(newSVpv(str, len));
         }
@@ -30,10 +29,6 @@ I32 is_num(pTHX_ SV * sv) {
  */ 
 
 #ifdef WIN32
-        if (!str) {
-            str = SvPV_const(sv, len);
-        }
-
         switch (len) {
             case 6: /* 2 tokens of length 6 */
                 switch (str[5]) {
@@ -103,7 +98,7 @@ I32 is_num(pTHX_ SV * sv) {
 
         not_nan_or_inf:
 #endif
-        type = looks_like_number(sv);
+        type = grok_number(str, len, NULL);
     }
 
     return type;

@@ -1,4 +1,4 @@
-Scalar-Util-Numeric version 0.20
+Scalar-Util-Numeric version 0.21
 ================================
 
 This module exports a number of wrappers around perl's builtin looks_like_number function, which 

@@ -1,5 +1,8 @@
 Revision history for Perl extension Scalar::Util::Numeric.
 
+0.21 Wed Aug 25 02:53:53 2010
+    - bypass redundant grok_number wrapper
+
 0.20 Tue Aug 24 22:56:36 2010
     - try to fix Inf and NaN on Windows
     - handle overloaded objects
