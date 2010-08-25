@@ -145,7 +145,7 @@ SKIP: {
         sub { is (isnan(42), 0, "isnan(42)") };
 }
 
-# throw in some near-misses (wrong spelling and wrong case) for the WIn32 Inf and NaN
+# throw in some near-misses (wrong spelling and wrong case) for the Win32 Inf and NaN
 # these should be invalid numbers on all platforms
 for my $fail ('1.#IMD', '-1.#IMD', '1.#IMF', '-1.#IMF', '1.#InD', '-1.#InD', '1.#InF', '-1.#InF') {
     is(isint($fail), 0);
