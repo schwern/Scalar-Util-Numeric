@@ -148,7 +148,7 @@ SKIP: {
 # throw in some near-misses (wrong spelling and wrong case) for the Win32 Inf and NaN
 # these should be invalid numbers on all platforms
 for my $fail ('1.#IMD', '-1.#IMD', '1.#IMF', '-1.#IMF', '1.#InD', '-1.#InD', '1.#InF', '-1.#InF') {
-    is(isint($fail), 0);
-    is(isinf($fail), 0);
-    is(isnan($fail), 0);
+    ok !isint($fail), "!isnit($fail)";
+    ok !isinf($fail), "!isinf($fail)";
+    ok !isnan($fail), "!isnan($fail)";
 }
